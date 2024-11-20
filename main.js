@@ -149,14 +149,21 @@ function onWindowResize() {
   // アスペクト
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  // 画面幅が一定以下（例：768px）ならGUIを非表示にする
+}
+
+function toggleGUI() {
   if (window.innerWidth <= 768) {
-    gui.domElement.style.display = "none"; // GUIを非表示
+    gui.domElement.style.display = "none";
   } else {
-    gui.domElement.style.display = "block"; // GUIを表示
+    gui.domElement.style.display = "block";
   }
 }
 
+// 初期表示状態を設定
+toggleGUI();
+
+// リサイズ時にもGUIの表示/非表示を調整
+window.addEventListener("resize", toggleGUI);
 // 月齢に基づいて光源を変更する
 
 function changeLightForMoonAge(age) {
