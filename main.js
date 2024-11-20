@@ -49,7 +49,7 @@ function init() {
   document.body.appendChild(renderer.domElement);
 
   // テクスチャを追加
-  let texture = new THREE.TextureLoader().load("textures/texture.jpg");
+  let texture = new THREE.TextureLoader().load("images/tentai.jpeg");
 
   // ジオメトリの作成
   let moon = new THREE.SphereGeometry(40, 64, 32);
