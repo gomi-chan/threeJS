@@ -8,7 +8,7 @@ export default defineConfig({
         injectHtmlData: {
           ogImage: "/images/ogp.jpg",
           ogTitle: "月の満ち欠け",
-          ogDescription: "WebGLで表現した月の満ち欠け",
+          ogDescription: "WebGL（three.js)で表現した月の満ち欠け。",
         },
       },
     }),
