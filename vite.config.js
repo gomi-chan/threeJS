@@ -1,14 +1,14 @@
 import { defineConfig } from "vite";
-import ViteHtmlPlugin from "vite-plugin-html";
+import { createHtmlPlugin } from "vite-plugin-html";
 
 export default defineConfig({
   plugins: [
-    ViteHtmlPlugin({
+    createHtmlPlugin({
       inject: {
-        injectHtmlData: {
+        injectData: {
+          title: "月の満ち欠け",
+          description: "WebGLで表現した月の満ち欠け",
           ogImage: "/images/ogp.jpg",
-          ogTitle: "月の満ち欠け",
-          ogDescription: "WebGL（three.js)で表現した月の満ち欠け。",
         },
       },
     }),
