@@ -149,6 +149,12 @@ function onWindowResize() {
   // アスペクト
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
+  // 画面幅が一定以下（例：768px）ならGUIを非表示にする
+  if (window.innerWidth <= 768) {
+    gui.domElement.style.display = "none"; // GUIを非表示
+  } else {
+    gui.domElement.style.display = "block"; // GUIを表示
+  }
 }
 
 // 月齢に基づいて光源を変更する
