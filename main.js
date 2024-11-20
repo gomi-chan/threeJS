@@ -77,10 +77,10 @@ function init() {
   scene.add(directionalLighttHerper);
 
   // ポイント光源
-  pointLight = new THREE.PointLight(0xffffff, 2);
+  pointLight = new THREE.PointLight(0xffffff, 1);
   pointLight.position.set(-200, -200, -200);
   pointLight.decay = 1;
-  pointLight.power = 1000;
+  pointLight.power = 200;
 
   scene.add(pointLight);
 
