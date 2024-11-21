@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "https://cdn.jsdelivr.net/npm/lil-gui@0.20/+esm";
+import { GUI } from "dat.gui";
+import { gsap } from "gsap";
 
 // UI
 const gui = new GUI();
@@ -165,36 +167,32 @@ toggleGUI();
 // リサイズ時にもGUIの表示/非表示を調整
 window.addEventListener("resize", toggleGUI);
 
-// 現在の月のアニメーション目標
-let targetPosition = new THREE.Vector3(); // 目標位置
-let isAnimating = false; // アニメーション中フラグ
+// 初期位置を記録
+const initialMoonPosition = { ...moonMesh.position };
 
-// 月の位置をアニメーション付きで移動する関数
-function animateMoonToPosition(newPosition) {
-  if (isAnimating) return; // すでにアニメーション中なら無視
-  isAnimating = true;
+// 月を手動で動かせる（OrbitControlsを使用していると仮定）
+// const controls = new OrbitControls(camera, renderer.domElement);
 
-  const clock = new THREE.Clock(); // 時間管理用のClock
-  const startPosition = moonMesh.position.clone(); // 現在の位置を保存
-  const duration = 1.5; // アニメーションの長さ（秒）
-
-  function animate() {
-    const elapsed = clock.getElapsedTime(); // 経過時間
-    const t = Math.min(elapsed / duration, 1); // 正規化（0〜1の範囲に収める）
-
-    // 線形補間で位置を計算
-    moonMesh.position.lerpVectors(startPosition, newPosition, t);
-
-    // アニメーション終了判定
-    if (t < 1) {
-      requestAnimationFrame(animate); // 次のフレームへ
-    } else {
-      isAnimating = false; // アニメーション終了
-    }
+// リセット用アニメーション関数
+function resetMoonPositionWithAnimation(callback) {
+  if (
+    moonMesh.position.x !== initialMoonPosition.x ||
+    moonMesh.position.y !== initialMoonPosition.y ||
+    moonMesh.position.z !== initialMoonPosition.z
+  ) {
+    // 初期位置に戻すアニメーション
+    gsap.to(moonMesh.position, {
+      x: initialMoonPosition.x,
+      y: initialMoonPosition.y,
+      z: initialMoonPosition.z,
+      duration: 1.0, // アニメーション時間
+      ease: "power2.inOut",
+      onComplete: callback, // 初期位置に戻った後に満ち欠け変更を実行
+    });
+  } else {
+    // 位置が初期位置ならそのままcallbackを実行
+    callback();
   }
-
-  clock.start(); // アニメーション開始
-  animate();
 }
 
 // 月齢に基づいて光源を変更する
@@ -239,18 +237,21 @@ function changeLightForMoonAge(age) {
       directionalLight.intensity = 0.5;
       break;
   }
-  // 月の位置をアニメーション付きで初期位置に戻す
-  targetPosition.set(0, 0, 0); // 初期位置
-  animateMoonToPosition(targetPosition);
 }
 
-// 月齢ボタンを作成
 function createMoonAgeButtons() {
   const buttonFolder = gui.addFolder("月齢");
 
   moonAges.forEach((moon) => {
     buttonFolder.add(
-      { [moon.name]: () => changeLightForMoonAge(moon.age) },
+      {
+        [moon.name]: () => {
+          // 月の位置が初期位置からずれている場合、戻してから月齢を変更
+          resetMoonPositionWithAnimation(() => {
+            changeLightForMoonAge(moon.age); // 月齢を変更
+          });
+        },
+      },
       moon.name
     );
   });
