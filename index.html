@@ -19,25 +19,15 @@
     <div id="app"></div>
     <script type="module" src="/main.js"></script>
 
-    <button id="restart-btn">Restart</button>
+    <button id="restart-btn">Reset</button>
 
     <script>
-      // ボタン位置をリセットする関数
-      function resetButtonPosition() {
-        const button = document.getElementById("restart-btn");
-        button.style.top = "50px"; // 初期位置
-        button.style.left = "50%"; // 横方向中央
-        button.style.transform = "translateX(-50%)"; // 中央揃え
-      }
-
-      // リセットボタンがクリックされたときのアクション
+      // リスタートボタンのクリックイベント
       document
         .getElementById("restart-btn")
         .addEventListener("click", function () {
-          // アクション：ボタンの位置をリセット
-          resetButtonPosition();
-          // ここに他のアクション（例えばページのリロードや他の機能）を追加できます
-          alert("Button reset to its original position!");
+          // リスタート処理（例：ページのリロード）
+          location.reload();
         });
     </script>
   </body>
