@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "https://cdn.jsdelivr.net/npm/lil-gui@0.20/+esm";
 // import { GUI } from "dat.gui";
-import { gsap } from "gsap";
+import { gsap } from "https://cdn.jsdelivr.net/npm/gsap@3.10.0/dist/gsap.min.js";
 
 // UI
 const gui = new GUI();
