@@ -4,3 +4,29 @@ body {
   background-size: cover;
   background-position: center;
 }
+#restart-btn {
+  position: absolute;
+  top: 50px; /* 初期位置 */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #6a1b9a; /* 深い紫色 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* 浮いているように見せる */
+  transition: all 0.3s ease; /* マウスオーバー時のスムーズな変化 */
+}
+
+#restart-btn:hover {
+  background-color: #8e24aa; /* ホバー時に少し明るく */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* 浮き上がるエフェクト */
+  transform: translateX(-50%) translateY(-3px); /* 浮き上がる感じ */
+}
+
+#restart-btn:active {
+  transform: translateX(-50%) translateY(0); /* クリック時に元の位置に戻る */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* クリック時に影を戻す */
+}
