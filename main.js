@@ -1,8 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import GUI from "https://cdn.jsdelivr.net/npm/lil-gui@0.20/+esm";
-// import { GUI } from "dat.gui";
-import { gsap } from "https://cdn.jsdelivr.net/npm/gsap@3.10.0/dist/gsap.min.js";
 
 // UI
 const gui = new GUI();
@@ -166,35 +164,6 @@ toggleGUI();
 
 // リサイズ時にもGUIの表示/非表示を調整
 window.addEventListener("resize", toggleGUI);
-
-// 初期位置を記録
-const initialMoonPosition = { ...moonMesh.position };
-
-// 月を手動で動かせる（OrbitControlsを使用していると仮定）
-// const controls = new OrbitControls(camera, renderer.domElement);
-
-// リセット用アニメーション関数
-function resetMoonPositionWithAnimation(callback) {
-  if (
-    moonMesh.position.x !== initialMoonPosition.x ||
-    moonMesh.position.y !== initialMoonPosition.y ||
-    moonMesh.position.z !== initialMoonPosition.z
-  ) {
-    // 初期位置に戻すアニメーション
-    gsap.to(moonMesh.position, {
-      x: initialMoonPosition.x,
-      y: initialMoonPosition.y,
-      z: initialMoonPosition.z,
-      duration: 1.0, // アニメーション時間
-      ease: "power2.inOut",
-      onComplete: callback, // 初期位置に戻った後に満ち欠け変更を実行
-    });
-  } else {
-    // 位置が初期位置ならそのままcallbackを実行
-    callback();
-  }
-}
-
 // 月齢に基づいて光源を変更する
 
 function changeLightForMoonAge(age) {
@@ -238,20 +207,13 @@ function changeLightForMoonAge(age) {
       break;
   }
 }
-
+// 月齢ボタンを作成
 function createMoonAgeButtons() {
   const buttonFolder = gui.addFolder("月齢");
 
   moonAges.forEach((moon) => {
     buttonFolder.add(
-      {
-        [moon.name]: () => {
-          // 月の位置が初期位置からずれている場合、戻してから月齢を変更
-          resetMoonPositionWithAnimation(() => {
-            changeLightForMoonAge(moon.age); // 月齢を変更
-          });
-        },
-      },
+      { [moon.name]: () => changeLightForMoonAge(moon.age) },
       moon.name
     );
   });
